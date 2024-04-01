@@ -41,4 +41,9 @@ class Routes
       'method' => 'DELETE'
     ];
   }
+
+  public static function all(): array
+  {
+    return self::$routes;
+  }
 }
