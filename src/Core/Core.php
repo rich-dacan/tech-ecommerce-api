@@ -12,13 +12,18 @@ class Core {
 
     isset($_GET['url']) && $url .= $_GET['url'];
 
+    $url !== '/' && $url = rtrim($url, '/');
+
     $prefixController = 'App\\Controllers\\';
+
+    $routeFound = false;
 
     foreach ($routes as $route) {
       $pattern = '#^'. preg_replace('/{id}/', '([\w-]+)', $route['path']) .'$#';
 
       if (preg_match($pattern, $url, $matches)) {
         array_shift($matches);
+        $routeFound = true;
 
         if ($route['method'] !== Request::method()) {
           Response::json([
@@ -33,9 +38,16 @@ class Core {
         [$controller, $action] = explode('@', $route['action']);
 
         $controller = $prefixController . $controller;
-        $extendController = new $controller;
-        $extendController->$action(...$matches);
+        $extendController = new $controller();
+        $extendController->$action(new Request, new Response, ...$matches);
       }
+    }
+
+    if (!$routeFound) {
+      $controller = $prefixController . 'NotFoundController';
+      $extendController = new $controller();
+
+      $extendController->index(new Request, new Response); // dependencies injection
     }
   }
 }
