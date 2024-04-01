@@ -3,6 +3,9 @@
 
 namespace App\Core;
 
+use App\Http\Request;
+use App\Http\Response;
+
 class Core {
   public static function dispatch(array $routes) {
     $url = "/";
@@ -16,6 +19,16 @@ class Core {
 
       if (preg_match($pattern, $url, $matches)) {
         array_shift($matches);
+
+        if ($route['method'] !== Request::method()) {
+          Response::json([
+            'error' => true,
+            'success' => false,
+            'message' => 'Error: method not allowed',
+
+          ], 405);
+          return;
+        }
 
         [$controller, $action] = explode('@', $route['action']);
 
