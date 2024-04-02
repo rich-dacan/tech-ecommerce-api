@@ -31,6 +31,13 @@ class Validator
       }
     }
 
+    if (!empty($errors)) {
+      // throw new \Exception(json_encode($errors));
+      foreach ($errors as $field => $error) {
+          throw new \Exception(json_encode("Error in field ($field): -> {$error}."));
+      }
+    }
+
     return $errors;
   }
 }

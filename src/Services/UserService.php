@@ -31,13 +31,6 @@ class UserService
     if (empty($errors)) {
       return $data;
 
-    } else {
-
-      // foreach ($errors as $field => $error) {
-      //   throw new \Exception(json_encode("Error in field ($field): -> {$error}."));
-      //   // echo "Error in field ($field): {$error}.";
-      // }
-      throw new \Exception(json_encode($errors));
     }
   }
 }
