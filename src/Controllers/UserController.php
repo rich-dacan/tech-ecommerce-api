@@ -4,17 +4,19 @@ namespace App\Controllers;
 
 use App\Http\Request;
 use App\Http\Response;
+use App\Services\UserService;
 
 class UserController
 {
   public function create(Request $request, Response $response) {
     $body = $request::body();
+    $user = UserService::create($body);
 
     $response::json([
       'error' => false,
       'success' => true,
       'message' => 'User created',
-      'data' => $body
+      'data' => $user
 
     ], 201);
   }
