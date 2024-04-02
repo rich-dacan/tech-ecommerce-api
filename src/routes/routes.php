@@ -4,7 +4,8 @@ use App\Http\Routes;
 
 Routes::get('/', 'HomeController@index');
 
-Routes::get('/users', 'HomeController@store');
-Routes::post('/users', 'HomeController@create');
-Routes::put('/users', 'HomeController@update');
-Routes::delete('/users', 'HomeController@delete');
+// Users
+Routes::get('/users/fetch', 'UserController@fetch');
+Routes::post('/users/create', 'UserController@create');
+Routes::post('/users/login', 'UserController@login');
+Routes::delete('/users/{id}/delete', 'UserController@delete');
