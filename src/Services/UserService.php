@@ -8,29 +8,19 @@ class UserService
 {
   public static function create(array $data)
   {
-    $fields = [];
-    foreach ($data as $field => $value) {
-      switch ($field) {
-        case 'username':
-          $fields[$field] = ['required'];
-          break;
-        case 'email':
-          $fields[$field] = ['required', 'email'];
-          break;
-        case 'password':
-          $fields[$field] = ['required', 'min:6'];
-          break;
-        default:
-          $fields[$field] = ['required'];
-          break;
-      }
-    }
+    try {
+      $fields = [
+        'username' => ['required'],
+        'email' => ['required', 'email'],
+        'password' => ['required', 'min:6'],
+      ];
 
-    $errors = Validator::validate($fields, $data);
+      Validator::validate($fields, $data);
 
-    if (empty($errors)) {
       return $data;
 
+    } catch (\Throwable $e) {
+      return ['error' => $e->getMessage()];
     }
   }
 }

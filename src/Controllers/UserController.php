@@ -12,6 +12,16 @@ class UserController
     $body = $request::body();
     $user = UserService::create($body);
 
+    if (isset($user['error'])) {
+      $response::json([
+        'error' => true,
+        'success' => false,
+        'message' => $user['error'],
+
+      ], 400);
+      return;
+    }
+
     $response::json([
       'error' => false,
       'success' => true,

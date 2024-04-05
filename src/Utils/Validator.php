@@ -10,7 +10,7 @@ class Validator
 
     foreach ($fields as $field => $rules) {
       if (!isset($data[$field])) {
-        $errors[$field] = "O campo {$field} é obrigatório.";
+        $errors[$field] = "The field {$field} is required.";
         continue;
       }
       $value = $data[$field];
@@ -32,10 +32,7 @@ class Validator
     }
 
     if (!empty($errors)) {
-      // throw new \Exception(json_encode($errors));
-      foreach ($errors as $field => $error) {
-          throw new \Exception(json_encode("Error in field ($field): -> {$error}."));
-      }
+      throw new \Exception(json_encode($errors));
     }
 
     return $errors;
